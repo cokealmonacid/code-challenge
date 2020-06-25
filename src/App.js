@@ -1,26 +1,42 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React, {useReducer, useRef} from 'react';
+import { useFetch, useInfiniteScroll, useLazyLoading } from './customHooks'
 import {Grid, Wrapper} from './containers';
 
 function App() {
-    const [images, setImages] = useState([]);
-    const fetchImages = async() => {
-        const response = await axios.get('https://api.unsplash.com/photos', {
-            headers: {
-                Authorization: 'Client-ID OeiemucHc2MzlhUCC7ECik76nvJzSDIsIftKDDTP5so'
-            }
-        });
-        setImages(response.data);
+
+    const imageReducer = (state, action) => {
+        switch (action.type) {
+            case 'STACK_IMAGES':
+                return {...state, images: state.images.concat(action.images)}
+            case 'FETCHING_IMAGES':
+                return {...state, fetching:action.fetching}
+            default:
+                return state;
+        }
     }
 
-    useEffect(() => {
-        fetchImages();
-    }, []);
+    const pageReducer = (state, action) => {
+        switch(action.type) {
+            case 'ADVANCE_PAGE':
+                return {...state, page: state.page + 1}
+            default:
+                    return state;
+        }
+    }
+
+    const [imgData, imgDispatch] = useReducer(imageReducer,{ images:[], fetching: true});
+    const [pager, pagerDispatch] = useReducer(pageReducer, { page: 1 });
+
+    let bottomRef = useRef(null);
+    useFetch(pager, imgDispatch);
+    useLazyLoading('.image-src', imgData.images);
+    useInfiniteScroll(bottomRef, pagerDispatch);
 
     return (
         <Wrapper>
             <h1>Unsplash Grid Gallery</h1>
-            <Grid images={images} />
+            <Grid images={imgData.images} />
+            <div id='page-bottom-boundary' style={{ border: '1px solid transparent' }} ref={bottomRef}></div>
         </Wrapper>
     );
 }
