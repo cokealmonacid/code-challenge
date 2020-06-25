@@ -16,6 +16,10 @@ const GlobalStyles = createGlobalStyle`
         & .ant-typography {
             color: ${({theme}) => theme.text};
         }
+
+        & .ant-switch {
+            float: right;
+        }
     }
 `;
 

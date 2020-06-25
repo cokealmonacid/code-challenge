@@ -33,6 +33,7 @@ function App() {
     }
 
     const [query, setQuery] = useState('');
+    const [theme, setTheme] = useState('light');
     const [imgData, imgDispatch] = useReducer(imageReducer,{ images:[], fetching: true});
     const [pager, pagerDispatch] = useReducer(pageReducer, { page: 1 });
 
@@ -47,13 +48,17 @@ function App() {
         setQuery(query);
     }
 
+    function _handleThemeToggler() {
+        theme === 'light' ? setTheme('dark') : setTheme('light');
+    }
+
     return (
-        <ThemeProvider theme={light}>
+        <ThemeProvider theme={theme === 'light' ? light : dark}>
             <>
             <GlobalStyles />
             <Wrapper>
+                <Toggle onChange={() => _handleThemeToggler()}/>
                 <Title>Unsplash Grid Gallery</Title>
-                <Toggle />
                 <Search onSearch={value => _handleClick(value)} allowClear/>
                 <Grid images={imgData.images} />
                 <div style={{ border: '1px solid transparent' }} ref={bottomRef}></div>
