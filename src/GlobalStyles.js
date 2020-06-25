@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import 'antd/dist/antd.css';
 
 const GlobalStyles = createGlobalStyle`
     html, body {
@@ -7,10 +8,14 @@ const GlobalStyles = createGlobalStyle`
     }
 
     body {
-        background: lightblue;
+        background: ${({theme}) => theme.body};
+        color: ${({theme}) => theme.text};
         font-family: Arial;
-        height: 100vh;
-        width: 100vw;
+        transition: all 0.50s linear;
+
+        & .ant-typography {
+            color: ${({theme}) => theme.text};
+        }
     }
 `;
 

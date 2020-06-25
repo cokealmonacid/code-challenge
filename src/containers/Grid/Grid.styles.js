@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 const GridStyles = styled.div`
     line-height: 0;
-    -webkit-column-count: 5;
+    -webkit-column-count: 4;
     -webkit-column-gap:   0px;
-    -moz-column-count:    5;
+    -moz-column-count:    4;
     -moz-column-gap:      0px;
-    column-count:         5;
+    column-count:         4;
     column-gap:           8px;
 
     & .image-src {
@@ -14,12 +14,13 @@ const GridStyles = styled.div`
         height: auto !important;
         margin-top: 8px;
         vertical-align: middle;
+        color: transparent;
     }
 
     @media (max-width: 1200px) {
-        -moz-column-count:    4;
-        -webkit-column-count: 4;
-        column-count:         4;
+        -moz-column-count:    3;
+        -webkit-column-count: 3;
+        column-count:         3;
       }
 
     @media (max-width: 1000px) {

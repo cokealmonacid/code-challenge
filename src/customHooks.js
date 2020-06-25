@@ -1,15 +1,18 @@
 import { useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 
-export const useFetch = (data, dispatch) => {
+export const useFetch = (data, dispatch, query) => {
     useEffect(() => {
+        let url = !query.length ? 'https://api.unsplash.com/photos' : 'https://api.unsplash.com/search/photos';
         dispatch({type: 'FETCHING_IMAGES', fetching: true});
-        axios.get(`https://api.unsplash.com/photos?page=${data.page}&per_page=20`, {
+        axios.get(`${url}?page=${data.page}&per_page=10`, {
             headers: {
                 Authorization: 'Client-ID OeiemucHc2MzlhUCC7ECik76nvJzSDIsIftKDDTP5so'
-            }
+            },
+            params: { query },
         })
         .then((response) => response.data)
+        .then(images => query ? images.results : images)
         .then(images => {
             dispatch({type: 'STACK_IMAGES', images});
             dispatch({type: 'FETCHING_IMAGES', fetching: false});
@@ -17,7 +20,7 @@ export const useFetch = (data, dispatch) => {
             dispatch({ type: 'FETCHING_IMAGES', fetching: false })
             return e
         });
-    }, [dispatch, data.page]);
+    }, [dispatch, data.page, query]);
 }
 
 export const useInfiniteScroll = (scrollRef, dispatch) => {
