@@ -4,7 +4,7 @@ import axios from 'axios';
 export const useFetch = (data, dispatch) => {
     useEffect(() => {
         dispatch({type: 'FETCHING_IMAGES', fetching: true});
-        axios.get(`https://api.unsplash.com/photos?page=${data.page}&per_page=10`, {
+        axios.get(`https://api.unsplash.com/photos?page=${data.page}&per_page=20`, {
             headers: {
                 Authorization: 'Client-ID OeiemucHc2MzlhUCC7ECik76nvJzSDIsIftKDDTP5so'
             }

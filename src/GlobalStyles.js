@@ -12,13 +12,6 @@ const GlobalStyles = createGlobalStyle`
         height: 100vh;
         width: 100vw;
     }
-
-    img{
-        display:flex;
-        width:100%;
-        height:100%;
-        object-fit:cover;
-    }
 `;
 
 export default GlobalStyles;
