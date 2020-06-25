@@ -1,6 +1,6 @@
 import React, {lazy, Suspense} from 'react';
 import { SRLWrapper } from 'simple-react-lightbox';
-import {Spin} from '../../components';
+import {Loading} from '../../components';
 
 const GridStyles = lazy(() => import ('./Grid.styles'));
 
@@ -22,19 +22,19 @@ const options = {
 const Grid = props => {
     const {images} = props;
     return (
-        <SRLWrapper options={options} images={images}>
-            <Suspense fallback={<Spin />}>
+            <Suspense fallback={<Loading />}>
                 <GridStyles>
                     {
                         images.map((image, index) => (
                             <div className="image-item" key={index}>
-                                    <img data-url={image.urls.small} alt={image.alt_description} className="image-src"/>
+                                    <SRLWrapper options={options}>
+                                        <img data-url={image.urls.small} alt={image.alt_description} className="image-src"/>
+                                    </SRLWrapper>
                             </div>
                         ))
                     }
                 </GridStyles>
             </Suspense>
-        </SRLWrapper>
     )
 };
 

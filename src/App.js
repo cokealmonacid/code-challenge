@@ -4,14 +4,14 @@ import {ThemeProvider} from "styled-components";
 import { light, dark } from "./Themes"
 import GlobalStyles from './GlobalStyles';
 import {Grid, Wrapper} from './containers';
-import {Search, Title, Toggle} from './components';
+import {NoContent, Search, Title, Toggle} from './components';
 
 function App() {
 
     const imageReducer = (state, action) => {
         switch (action.type) {
             case 'STACK_IMAGES':
-                return {...state, images: state.images.concat(action.images)}
+                return {...state, images: state.images.concat(action.images), success: true}
             case 'FETCHING_IMAGES':
                 return {...state, fetching:action.fetching}
             case 'CLEAN_IMAGES':
@@ -52,6 +52,11 @@ function App() {
         theme === 'light' ? setTheme('dark') : setTheme('light');
     }
 
+    let content = <><Grid images={imgData.images} /><div style={{ border: '1px solid transparent' }} ref={bottomRef}></div></>;
+    if (!imgData.images.length && imgData.success) {
+        content = <NoContent />;
+    }
+
     return (
         <ThemeProvider theme={theme === 'light' ? light : dark}>
             <>
@@ -60,8 +65,7 @@ function App() {
                 <Toggle onChange={() => _handleThemeToggler()}/>
                 <Title>Unsplash Grid Gallery</Title>
                 <Search onSearch={value => _handleClick(value)} allowClear/>
-                <Grid images={imgData.images} />
-                <div style={{ border: '1px solid transparent' }} ref={bottomRef}></div>
+                {content}
             </Wrapper>
             </>
         </ThemeProvider>

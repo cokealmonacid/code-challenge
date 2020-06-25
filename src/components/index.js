@@ -1,5 +1,6 @@
+import NoContent from './NoContent';
 import Search from './Search';
-import Spin from './Spin';
+import Loading from './Loading';
 import Title from './Title';
 import Toggle from './Toggle';
-export {Search, Spin, Title, Toggle};
+export {Loading, NoContent, Search, Title, Toggle};
