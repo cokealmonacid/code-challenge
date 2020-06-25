@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 const GridStyles = styled.div`
     line-height: 0;
-    -webkit-column-count: 4;
+    -webkit-column-count: 3;
     -webkit-column-gap:   0px;
-    -moz-column-count:    4;
+    -moz-column-count:    3;
     -moz-column-gap:      0px;
-    column-count:         4;
+    column-count:         3;
     column-gap:           8px;
 
     & .image-src {

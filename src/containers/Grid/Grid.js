@@ -22,19 +22,19 @@ const options = {
 const Grid = props => {
     const {images} = props;
     return (
-        <Suspense fallback={<Spin />}>
-            <SRLWrapper options={options}>
+        <SRLWrapper options={options} images={images}>
+            <Suspense fallback={<Spin />}>
                 <GridStyles>
                     {
                         images.map((image, index) => (
                             <div className="image-item" key={index}>
-                                    <img data-url={image.urls.regular } alt={image.alt_description} className="image-src"/>
+                                    <img data-url={image.urls.small} alt={image.alt_description} className="image-src"/>
                             </div>
                         ))
                     }
                 </GridStyles>
-            </SRLWrapper>
-        </Suspense>
+            </Suspense>
+        </SRLWrapper>
     )
 };
 
