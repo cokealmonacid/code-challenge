@@ -1,10 +1,10 @@
 import React, {useReducer, useRef, useState} from 'react';
-import { useFetch, useInfiniteScroll, useLazyLoading } from './customHooks';
+import { useFetch, useInfiniteScroll, useLazyLoading, useDarkMode } from './customHooks';
 import {ThemeProvider} from "styled-components";
-import { light, dark } from "./Themes"
 import GlobalStyles from './GlobalStyles';
 import {Grid, Wrapper} from './containers';
 import {NoContent, Search, Title, Toggle} from './components';
+import {light, dark} from './Themes';
 
 function App() {
 
@@ -15,7 +15,7 @@ function App() {
             case 'FETCHING_IMAGES':
                 return {...state, fetching:action.fetching}
             case 'CLEAN_IMAGES':
-                return { ...state, images:[], fetching: true};
+                return { ...state, images:[], fetching: true, success: false};
             default:
                 return state;
         }
@@ -28,12 +28,12 @@ function App() {
             case 'CLEAN_PAGE':
                 return {...state, page: 1};
             default:
-                    return state;
+                return state;
         }
     }
 
     const [query, setQuery] = useState('');
-    const [theme, setTheme] = useState('light');
+    const [theme, changeTheme] = useDarkMode();
     const [imgData, imgDispatch] = useReducer(imageReducer,{ images:[], fetching: true});
     const [pager, pagerDispatch] = useReducer(pageReducer, { page: 1 });
 
@@ -48,11 +48,7 @@ function App() {
         setQuery(query);
     }
 
-    function _handleThemeToggler() {
-        theme === 'light' ? setTheme('dark') : setTheme('light');
-    }
-
-    let content = <><Grid images={imgData.images} /><div style={{ border: '1px solid transparent' }} ref={bottomRef}></div></>;
+    let content = <Grid images={imgData.images} />;
     if (!imgData.images.length && imgData.success) {
         content = <NoContent />;
     }
@@ -62,10 +58,11 @@ function App() {
             <>
             <GlobalStyles />
             <Wrapper>
-                <Toggle onChange={() => _handleThemeToggler()}/>
+                <Toggle theme={theme} onChange={() => changeTheme()}/>
                 <Title>Unsplash Grid Gallery</Title>
                 <Search onSearch={value => _handleClick(value)} allowClear/>
                 {content}
+                <div style={{ border: '1px solid transparent' }} ref={bottomRef}></div>
             </Wrapper>
             </>
         </ThemeProvider>

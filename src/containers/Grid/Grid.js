@@ -23,17 +23,18 @@ const Grid = props => {
     const {images} = props;
     return (
             <Suspense fallback={<Loading />}>
-                <GridStyles>
-                    {
-                        images.map((image, index) => (
-                            <div className="image-item" key={index}>
-                                    <SRLWrapper options={options}>
-                                        <img data-url={image.urls.small} alt={image.alt_description} className="image-src"/>
-                                    </SRLWrapper>
-                            </div>
-                        ))
-                    }
-                </GridStyles>
+                <SRLWrapper options={options}>
+                    <GridStyles>
+                        {
+                            images.map((image, index) => (
+                                <div className="image-item" key={index}>
+
+                                            <img data-url={image.urls.small} alt={image.alt_description} className="image-src"/>
+                                </div>
+                            ))
+                        }
+                    </GridStyles>
+                </SRLWrapper>
             </Suspense>
     )
 };
